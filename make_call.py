@@ -1,15 +1,22 @@
+import os
 from twilio.rest import Client
+from dotenv import load_dotenv
 
-# Your Account SID and Auth Token from Twilio Console (as strings)
-account_sid = 'AC27a3ff623958d4c3f6b841ad08106cdb'
-auth_token = '2df88fcd3e7b5eeeca2f587188bd25f3'
+load_dotenv()
+
+account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+
+from_number = os.environ.get("TWILIO_FROM_NUMBER")
+to_number = os.environ.get("TWILIO_TO_NUMBER")
+ngrok_url = os.environ.get("NGROK_URL")
 
 client = Client(account_sid, auth_token)
 
 call = client.calls.create(
-    to='+919844869941',          # Your verified Indian phone number with country code and quotes
-    from_='+17576974901',        # Your Twilio phone number with country code and quotes
-    url='https://6b50bb1719bf.ngrok-free.app/ivr' # Your ngrok URL with /ivr path and quotes
+    to=to_number,
+    from_=from_number,
+    url=ngrok_url
 )
 
 print("Call initiated! Call SID:", call.sid)
